@@ -1,12 +1,13 @@
 # fsm_mod3.py
-# A finite state machine to calculate binary % 3 without using modulus or int()
+
+from typing import Dict
+
 
 class FSM:
-    def __init__(self, states, input_symbols, initial_state, final_states, transition_function):
+    def __init__(self, states: set, alphabet: set, initial_state: str, transition_function: Dict[str, Dict[str, str]]):
         self.states = states
-        self.input_symbols = input_symbols
+        self.alphabet = alphabet
         self.initial_state = initial_state
-        self.final_states = final_states
         self.transition_function = transition_function
         self.current_state = initial_state
 
@@ -14,50 +15,45 @@ class FSM:
         self.current_state = self.initial_state
 
     def transition(self, symbol: str):
-        if symbol not in self.input_symbols:
-            raise ValueError(f"Invalid symbol '{symbol}' in input.")
+        if symbol not in self.alphabet:
+            raise ValueError(f"Invalid input symbol: {symbol}")
         self.current_state = self.transition_function[self.current_state][symbol]
 
-    def process(self, input_sequence: str):
+    def process(self, input_string: str) -> str:
         self.reset()
-        for symbol in input_sequence:
+        for symbol in input_string:
             self.transition(symbol)
         return self.current_state
 
 
-def mod3_fsm():
-    # Define states and transitions for mod-3 FSM
-    states = {"S0", "S1", "S2"}
-    input_symbols = {"0", "1"}
-    initial_state = "S0"
-    final_states = {"S0", "S1", "S2"}
-    transitions = {
-        "S0": {"0": "S0", "1": "S1"},
-        "S1": {"0": "S2", "1": "S0"},
-        "S2": {"0": "S1", "1": "S2"},
-    }
+class Mod3FSM(FSM):
+    def __init__(self):
+        states = {"S0", "S1", "S2"}
+        alphabet = {"0", "1"}
+        initial_state = "S0"
+        transition_function = {
+            "S0": {"0": "S0", "1": "S1"},
+            "S1": {"0": "S2", "1": "S0"},
+            "S2": {"0": "S1", "1": "S2"},
+        }
+        super().__init__(states, alphabet, initial_state, transition_function)
+        self.state_to_remainder = {"S0": 0, "S1": 1, "S2": 2}
 
-    return FSM(states, input_symbols, initial_state, final_states, transitions)
-
-
-def binary_mod3(binary_str: str) -> int:
-    """
-    Processes a binary string to compute binary value % 3 using FSM.
-
-    Args:
-        binary_str: A string of 0s and 1s.
-
-    Returns:
-        The remainder after division by 3.
-    """
-    state_to_remainder = {"S0": 0, "S1": 1, "S2": 2}
-    fsm = mod3_fsm()
-    final_state = fsm.process(binary_str)
-    return state_to_remainder[final_state]
+    def get_mod3_remainder(self, binary_input: str) -> int:
+        if not binary_input:
+            raise ValueError("Input string cannot be empty.")
+        final_state = self.process(binary_input)
+        return self.state_to_remainder[final_state]
 
 
-# Sample usage
+def main():
+    fsm = Mod3FSM()
+    examples = ["1101", "1110", "1111", "0", "1", "10", "100", "1010"]
+
+    for binary in examples:
+        remainder = fsm.get_mod3_remainder(binary)
+        print(f"Input: {binary} → Remainder: {remainder}")
+
+
 if __name__ == "__main__":
-    samples = ["1101", "1111", "1010", "000", "1", "11"]
-    for binary in samples:
-        print(f"{binary} -> {binary_mod3(binary)}")
+    main()

@@ -1,88 +1,102 @@
-# 🧠 Software Developer Technical Assignment
 
-Welcome! This repository contains solutions for the two-part technical assignment for the Software Developer role. Each assignment is implemented in Python with clean code, proper abstraction, and unit tests.
+# Threshold Selector & Mod-3 FSM
 
----
+This project includes two separate Python-based assignments that demonstrate object-oriented design, proper software structure, and automated testing using `unittest` and `pytest`.
 
-## 📁 Folder Structure
+## Project Layout
+
+Each assignment is located in its own folder for clarity and modularity.
 
 ```
-submission/
+SUBMISSION/
 ├── assignment1/
-│   ├── threshold_selector.py        # Function to select best classification threshold
-│   └── test_threshold_selector.py   # Unit tests for threshold selector
+│   ├── threshold_selector.py
+│   └── test_threshold_selector.py
+│
 ├── assignment2/
-│   ├── fsm_mod3.py                  # FSM class + mod-3 binary remainder logic
-│   └── test_fsm_mod3.py             # Unit tests for FSM and mod-3 logic
+│   ├── fsm_mod3.py
+│   └── test_fsm_mod3.py
+│
+├── requirements.txt
 └── README.md
 ```
 
----
+## Assignment 1: Threshold Selector
 
-## 📌 Assignment 1 – Best Threshold Selector
+This module helps determine the best threshold from a list of binary classification metrics where the recall is at least 0.9.
 
-### ✅ Problem
-Given binary classification results (`TP`, `FP`, `TN`, `FN`) for different confidence score thresholds, find the best threshold where **recall ≥ 0.9**.
+### What it does:
 
-### 🧪 Example Input
-```python
-threshold_metrics = {
-    0.1: {"tp": 96, "fp": 32, "tn": 58, "fn": 4},
-    0.2: {"tp": 90, "fp": 24, "tn": 66, "fn": 10},
-    ...
-}
-```
+- Computes recall for each threshold using TP and FN values
+- Selects the highest threshold that meets the recall criteria
+- Includes logging for traceability and a test suite that handles various scenarios
 
-### 🚀 Run the Script
+### How to run:
+
 ```bash
 cd assignment1
 python threshold_selector.py
 ```
 
-### 🧪 Run Unit Tests
+### How to test:
+
 ```bash
-python -m unittest test_threshold_selector.py
+pytest
 ```
 
----
+You can also use the built-in unittest runner:
 
-## 📌 Assignment 2 – FSM for Binary Mod-3
+```bash
+python -m unittest test_threshold_selector.py -v
+```
 
-### ✅ Problem
-Implement a Finite State Machine (FSM) to compute the remainder of a binary string interpreted as an unsigned integer **modulo 3**, **without using `%` or int conversion**.
+## Assignment 2: Mod-3 Finite State Machine
 
-### 🧠 FSM Details
-- States: `S0`, `S1`, `S2` represent remainders `0`, `1`, `2`
-- Transitions follow the FSM delta rules as described in the assignment prompt
+This FSM implementation takes a binary string input and simulates transitions between states to determine the remainder when the binary value is divided by 3.
 
-### 🚀 Run the Script
+### Key concepts:
+
+- Uses three states (S0, S1, S2)
+- Defines transitions for each bit input ('0' or '1')
+- The final state determines the remainder (0, 1, or 2)
+
+### How to run:
+
 ```bash
 cd assignment2
 python fsm_mod3.py
 ```
 
-### 🧪 Run Unit Tests
+### How to test:
+
 ```bash
-python -m unittest test_fsm_mod3.py
+pytest
 ```
 
----
+Or using unittest directly:
 
-## 🧼 Code Highlights
+```bash
+python -m unittest test_fsm_mod3.py -v
+```
 
-- ✅ Clean modular code
-- ✅ Object-Oriented Design (FSM as a generic class)
-- ✅ Full test coverage with edge case handling
-- ✅ Clear comments and naming conventions
-- ✅ No external dependencies – Python 3 standard library only
+## Testing
 
----
+All logic in both assignments is covered with detailed unit tests, including edge cases, invalid input handling, and reset behavior between test cases.
 
-## 👨‍💻 Environment
+## Requirements
 
-- Language: Python 3.x
-- No additional libraries required
+This project only requires Python and `pytest` to run and test.
 
----
+```
+pytest>=7.0
+```
 
-Thank you for reviewing this submission!
+Install with:
+
+```bash
+pip install -r requirements.txt
+```
+
+## Final Notes
+
+This repository was designed with readability and reusability in mind. The codebase adheres to Python best practices including modularization, meaningful naming, defensive programming, and full test coverage.

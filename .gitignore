@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test cache
+.pytest_cache/
+
+# Environment folders
+.venv/
+env/
+venv/
+
+# VS Code specific
+.vscode/
+
+# macOS & system files
+.DS_Store
+
+# Ignore logs or runtime artifacts if any
+*.log
+
+# Ignore user-generated data files
+*.swp
